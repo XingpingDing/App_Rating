@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block title %}All Apps{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="container">
+        <div class="row">
+            <div align="center" class="col-md-12">
+                <span style="font-size: 40pt">Apps</span>
+                <hr/>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+
+            <!-- Category A-->
+            <div class="col-md-4 col-md-offset-0 test">
+                <div class="col-md-8 col-md-offset-2">
+                    <p class="allApps_category">{{ category_list.0 }}</p>
+                </div>
+
+                {% for app in Games %}
+                    <div class="col-md-8 col-md-offset-2 appdiv" style="white-space: nowrap">
+                        <a href="/apprating/app/{{ app.appid }}">
+                            <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
+                            <span class="allApps_name"><b>{{ app.appname }}</b></span>
+                        </a>
+                        <hr/>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- Category B-->
+            <div class="col-md-4 col-md-offset-0 test">
+                <div class="col-md-8 col-md-offset-2">
+                    <p class="allApps_category">{{ category_list.1 }}</p>
+                </div>
+
+                {% for app in Social %}
+                    <div class="col-md-8 col-md-offset-2 appdiv" style="white-space: nowrap">
+                        <a href="/apprating/app/{{ app.appid }}">
+                            <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
+
+                            <span class="allApps_name"><b>{{ app.appname }}</b></span>
+                        </a>
+                        <hr/>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- Category C-->
+            <div class="col-md-4 col-md-offset-0 test">
+                <div class="col-md-8 col-md-offset-2">
+                    <p class="allApps_category">{{ category_list.2 }}</p>
+                </div>
+
+                {% for app in Music %}
+                    <div class="col-md-8 col-md-offset-2 appdiv" style="white-space: nowrap">
+                        <a href="/apprating/app/{{ app.appid }}">
+                            <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
+                            <span class="allApps_name"><b>{{ app.appname }}</b></span>
+                        </a>
+                        <hr/>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                $(this).addClass('animated ' + animationName).one(animationEnd, function () {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            $(".appdiv").mouseover(function () {
+                $(this).animateCss('pulse')
+            })
+        });
+    </script>
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>App Rating</title>
+</head>
+
+<body>
+
+
+{% block title %}App Rating{% endblock %}
+{% block content %}
+    <!--jumbotron-->
+    <div id="banner" class="jumbotron col-md-12" style="background-image: url('{% static "images/banner.png" %}');">
+        <div class="col-md-12" style="margin-top: 20px;">
+
+            <div align="center" style="color: white;">
+                <span style="font-size: 35pt;"><b>LOVE THEM, HATE THEM, RATE THEM.</b></span>
+            </div>
+
+            <div align="center" class="row" style="margin-top: 40px;">
+                <img src="{% static "images/logo_phone.png" %}" height="45">
+            </div>
+
+
+            <div align="center" class="col-md-2 col-md-push-5" style="margin-top: 50px;">
+                <button type="button" id="signup" class="btn-lg" style="" data-toggle="modal"
+                        data-target="#register"> Sign Up Now
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- popular apps-->
+        <div class="row col-md-12">
+
+            <div class="col-md-12 col-md-offset-0 " style="height: 245px">
+                <div class="row col-md-10 col-md-offset-1" style="margin-top:10px;">
+                <h1>The popular</h1>
+                <hr/>
+                <br/>
+
+                    {% for app in top8 %}
+
+                        <div class="col-md-3 col-sm-6 index_appdiv">
+                            <a href="/apprating/app/{{ app.appid }}">
+                                <img class="index_icon"
+                                     src="{% static "" %}{{ app.iconpath }}"
+                                     height="80">
+
+                                <div class="index_appname">{{ app.appname }}</div>
+                            </a>
+                        </div>
+
+                        {% if forloop.counter0 == 3 %}
+                            <div class="col-md-12" style="height: 40px;"></div>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                $(this).addClass('animated ' + animationName).one(animationEnd, function () {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            $(".index_appdiv").mouseover(function () {
+                $(this).animateCss('pulse')
+            })
+        });
+
+        $(document).ready(function () {
+            $("#signup").mouseover(function () {
+                $(this).css("background-color","white");
+                $(this).css("color","black");
+            });
+            $("#signup").mouseout(function () {
+                $(this).css("background-color","transparent");
+                $(this).css("color","white");
+            });
+        });
+
+    </script>
+
+{% endblock %}
+
+</body>
+
+</html>

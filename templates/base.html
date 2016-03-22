@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+{% load crispy_forms_tags %}
+
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+
+    <!--animate.css-->
+    <link rel="stylesheet" href="{% static "css/animate.min.css" %}">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+
+    <!-- Optional theme -->
+{#    <link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}">#}
+
+    <!-- Fonts Awesome-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <!-- jquery file CDN -->
+    <script src="{% static "js/jquery.min.js" %}"></script>
+
+    <!--Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="{% static "css/mycss.css" %}" type="text/css">
+</head>
+
+<body {% block background %}{% endblock %}>
+
+
+<!-- Small modal -->
+<button style="display: none" type="button" class="btn btn-primary" id="welcome" data-toggle="modal"
+        data-target=".welcome">Welcome
+</button>
+
+<div class="modal fade welcome" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h3 align="center" class="modal-title">Congratulations</h3>
+            </div>
+            <div class="modal-body">
+                <h1 align="center">You are one of us !</h1>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary loginnow" data-dismiss="modal">Login now</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--NaviBar-->
+<nav class="navbar navbar-default navbar-inverse">
+    <div class="container  col-lg-12">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <img alt="Brand" style="float: left; margin-left: 10px;margin-top: 1px;"
+                 src="{% static "images/logo_0.png" %}" height="50 px" width="156 px">
+
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                <li style="margin-left: 30px;" class="{{ home }}">
+                    <a href="/apprating/"><b>Home</b><span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="{{ categories }}">
+                    <a href="/apprating/all-apps"><b>Apps</b></a></li>
+                </li>
+
+                <li class="{{ ranklist }}">
+                    <a href="/apprating/ranklist/"><b>Ranklist</b></a>
+                </li>
+
+            </ul>
+
+            <!--login button-->
+            <ul class="nav navbar-nav navbar-right">
+
+                {% if user.is_authenticated %}
+                    <li>
+                        <p class="navbar-text white-text">
+                            Welcome {{ user.username }}</p>
+
+                    </li>
+                    <li>
+
+                        <button style="border-radius: 0" onclick="window.location.href='/apprating/logout'" type="button"
+                                class="btn btn-primary navbar-btn">
+                            Log out
+                        </button>
+
+                    </li>
+                {% else %}
+
+                    <li>
+                        <button style="width:70px;border-radius: 0" type="button" class="btn btn-success navbar-btn" data-toggle="modal"
+                                data-target="#register">
+                            Sign up
+                        </button>
+                    </li>
+
+                    <li>
+                        <button style="width:70px;border-radius: 0" id="signin" type="button" class="btn btn-primary navbar-btn" data-toggle="modal"
+                                data-target="#login">
+                            Log in
+                        </button>
+                    </li>
+
+                {% endif %}
+            </ul>
+
+            <!--search bar-->
+            <form class="navbar-form navbar-right" role="search" method='get' action="/apprating/results/">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input style="border-radius: 0" type="text" class="form-control" size="15" placeholder="Search APPS" name="searchcontent">
+                </div>
+                <button style="border-radius: 0" type="submit" class="btn btn-info">Go</button>
+            </form>
+
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<!-- My model here for sign in -->
+<div class="modal fade" id="login" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Log In</h2>
+            </div>
+            <div class="modal-body">
+
+                <!-- a form for login -->
+
+                <form id="login_form" method="post" action="/apprating/login/">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+
+                        {% if login_invalid_error == True %}
+                            <div class="alert alert-danger" role="alert">Invalid username or password!</div>
+                        {% endif %}
+
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username"
+                        >
+                    </div>
+
+                    {% if login_username_error == True %}
+                        <div class="alert alert-danger" role="alert">Please fill in your username!</div>
+                    {% endif %}
+
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password"
+                               placeholder="Password">
+                    </div>
+
+                    {% if login_password_error == True %}
+                        <div class="alert alert-danger" role="alert">Please fill in your password!</div>
+                    {% endif %}
+
+
+                    <input class="btn btn-primary btn-block" type="submit" value="Login"/>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- My model here for register -->
+<div class="modal fade" id="register" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Welcome to be our membership</h2>
+            </div>
+            <div class="modal-body">
+
+                <!-- a form for login -->
+                <form id="user_form" method="post" action="/apprating/"
+                      enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {{ user_form|crispy }}
+
+
+                    <!-- Provide a button to click to submit the form. -->
+                    <input class="btn btn-success btn-block" type="submit" name="submit" value="Register"/>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Content-->
+{% block content %}{% endblock %}
+
+<!--footer-->
+<div class="col-md-12" style="height: 1px;margin-top: 200px;"></div>
+<div class="container bottom col-md-12">
+    <div style="margin-top: 0px"></div>
+    <div class="row" id="footersetting">
+        <div class="col-md-6 col-md-push-5">Team DLCC IT Project 2016</div>
+    </div>
+</div>
+
+<script>
+
+
+    $(document).ready(function () {
+        {% if login_error == True %}
+            $("#signin").click()
+        {% endif %}
+    });
+
+
+    $(document).ready(function () {
+        if ($(document).height() - 25 > $(window).height()) {
+            $(".bottom").hide();
+            $(document).ready(function () {
+
+                $(window).scroll(function () {
+                    if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                        $(".bottom").fadeIn(1000);
+                    }
+                    else {
+                        $(".bottom").fadeOut(1000)
+                    }
+                });
+            });
+        }
+        else {
+            $(".bottom").show();
+            $(window).scroll(function () {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                    $(".bottom").fadeIn(1000);
+                }
+
+                else {
+                    $(".bottom").fadeOut(1000)
+                }
+            });
+        }
+
+    });
+
+    $(document).ready(function () {
+        $(".showfooter").click(function () {
+            $(".bottom").fadeIn(1000);
+        });
+    });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    {% if error %}
+        $(document).ready(function () {
+            $("#signup").click()
+        });
+    {% endif %}
+
+    {% if registered %}
+        $(document).ready(function () {
+            $("#welcome").click()
+        });
+    {% endif %}
+
+    $(document).ready(function () {
+        $(".loginnow").click(function () {
+            setTimeout(function () {
+                $("#signin").click()
+            }, 500);
+        })
+    });
+
+
+</script>
+<!--JavaScript files load latter here-->
+<!-- Latest compiled and minified JavaScript -->
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+
+</body>
+</html>

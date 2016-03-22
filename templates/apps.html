@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Apps</title>
+
+</head>
+<body>
+
+{% block background %}{% endblock %}
+{% block title %}Apps{% endblock %}
+{% block content %}
+
+    <div class="row col-md-11 col-md-push-1">
+        <!--icon position-->
+        <div class="col-md-3 col-md-offset-1">
+            <div class="col-md-10 col-md-offset-2">
+                <img class="img-responsive" style="border-radius: 35px"
+                     src="{% static '' %}{{ app.iconpath }}"/>
+            </div>
+        </div>
+        <!--detail position-->
+        <div class="col-md-5">
+            <h2>{{ app.appname }}</h2>
+            <p>Developer: {{ app.developer }}</p>
+            <p>Category: {{ app.category }}</p>
+            <p>Price: {{ app.price }}</p>
+            <div class="row col-md-12 col-md-pull-1">
+                <!--like button here-->
+                <div align="center" class="col-md-1 thumbUp">
+                    <span>
+                        <i style="color: #ff7238; cursor: pointer" class="fa fa-thumbs-o-up fa-2x"></i>
+                    </span>
+                </div>
+
+                <!--progress bar here-->
+                <div class="col-md-8" style="margin-left: 9px;">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-danger" id="likes" style="width: {{ likepercentage }}%">
+                            <span class="sr-only"></span>
+                            <span id="likecount">{{ app.likecount }}</span>
+                        </div>
+
+                        <div class="progress-bar progress-bar-success" id="dislikes"
+                             style="width: {{ dislikepercentage }}%">
+                            <span class="sr-only"></span>
+                            <span id="dislikecount">{{ app.dislikecount }}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--hate button here-->
+                <div class="col-md-1" style="margin-left: 5px;">
+                    <span style="">
+                        <i style="color: #00C853;cursor: pointer" class="fa fa-thumbs-o-down fa-2x thumbDown">
+                        </i>
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+        <!--score poisition-->
+        <div style="font-family: 'Pacifico', cursive;" class="col-md-1 col-md-pull-1">
+            <p data-toggle="tooltip" data-placement="left" title="Score of 5"
+               style="font-size: 80px;" id="app_score"></p>
+        </div>
+    </div>
+
+    <!--tabs here-->
+    <div style="margin-top: 15px" class="row  col-md-8 col-md-push-2">
+        <div class="col-md-11 col-md-offset-1">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+
+                <!--tab screenshots-->
+                <li role="presentation" class="active">
+                    <a class=" showfooter" href="#Screenshots"
+                       aria-controls="Screenshots"
+                       role="tab"
+                       data-toggle="tab">Screenshots</a>
+                </li>
+
+                <!--tab description-->
+                <li role="presentation">
+                    <a class=" showfooter" href="#Description" aria-controls="Description"
+                       role="tab"
+                       data-toggle="tab">Description</a>
+                </li>
+
+                <!--tab comments-->
+                <li role="presentation">
+                    <a class=" showfooter" href="#Comments" aria-controls="Comments" role="tab"
+                       data-toggle="tab">Comments</a>
+                </li>
+
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+
+                <!-- panes screenshots here-->
+                <div role="tabpanel" class="tab-pane fade in active" id="Screenshots">
+                    <br/>
+                    <div class="col-md-4">
+                        <img class="img-responsive" src="{% static "" %}{{ app.imagepath1 }}"
+                             width="220"/>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="img-responsive" src="{% static "" %}{{ app.imagepath2 }}"
+                             width="220"/>
+                    </div>
+                    <div class="col-md-4">
+                        <img class="img-responsive" src="{% static "" %}{{ app.imagepath3 }}"
+                             width="220"/>
+                    </div>
+
+                </div>
+
+                <!-- panes description here-->
+                <div role="tabpanel" class="tab-pane fade" id="Description">
+                    <br/>
+                    {% autoescape off %}{{ app.description|safe }}{% endautoescape %}
+                </div>
+
+                <!-- panes comments here-->
+                <div role="tabpanel" class="tab-pane fade" id="Comments">
+
+
+                    <!--write comment here or login-->
+                    <div id="commentDiv">
+                        <br/>
+                        {% if user.is_authenticated %}
+                            <div>
+                                <textarea id="commentArea" class="form-control" rows="3"
+                                          placeholder="I'd like to say..."></textarea>
+                                <br/>
+                                <div class="col-md-9" style="color: gold">
+                                    <i class="fa fa-star-o fa-2x" id="st1"></i>
+                                    <i class="fa fa-star-o fa-2x" id="st2"></i>
+                                    <i class="fa fa-star-o fa-2x" id="st3"></i>
+                                    <i class="fa fa-star-o fa-2x" id="st4"></i>
+                                    <i class="fa fa-star-o fa-2x" id="st5"></i>
+                                    <span id="starScore">Give stars for this app</span>
+                                </div>
+                                <button class="btn btn-primary col-md-3" id="post">Post</button>
+                            </div>
+                        {% else %}
+                            <button class="btn btn-primary col-md-12" data-toggle="modal"
+                                    data-target="#login">Login to write a comment!
+                            </button>
+                        {% endif %}
+                        <br/><br/>
+                    </div>
+
+
+                    <hr/>
+
+                    <!-- user's comment here-->
+                    <div class="col-md-12" id="latestComment" hidden>
+                        <p>Latest Comment!</p>
+                        <p id="latest_comment"><span id="usernow">{{ user.username }}</span> : </p>
+                        <p id="latest_rating">Score : </p>
+                        <hr/>
+                    </div>
+
+                    {% for comment in comment_list %}
+                        <div class="col-md-12">
+                            <p>{{ comment.user.username }} : {{ comment.content }}</p>
+                            <p>Score : <span class="comment_score"
+                                             id="{{ forloop.counter }}">{{ comment.score }}</span></p>
+                            <hr/>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+
+        $("#post").prop("disabled", "disabled");
+
+        $(document).ready(function () {
+            var appScore = {{ app.averscore }};
+            var rounded = appScore.toFixed(1);
+            $("#app_score").html(rounded);
+        });
+
+
+        {#        var star_0 = $("<i></i>", {"class": "fa fa-star"});#}
+        {#        var star_1 = $("<i></i>", {"class": "fa fa-star"});#}
+        {#        var star_2 = $("<i></i>", {"class": "fa fa-star"});#}
+        {#        var star_3 = $("<i></i>", {"class": "fa fa-star"});#}
+        {#        var star_4 = $("<i></i>", {"class": "fa fa-star"});#}
+
+        $(document).ready(function () {
+
+            {% for comment in comment_list %}
+
+                var star_0 = $("<i></i>", {"class": "fa fa-star"});
+                var star_1 = $("<i></i>", {"class": "fa fa-star"});
+                var star_2 = $("<i></i>", {"class": "fa fa-star"});
+                var star_3 = $("<i></i>", {"class": "fa fa-star"});
+                var star_4 = $("<i></i>", {"class": "fa fa-star"});
+
+                var commentScore = parseInt($("#{{forloop.counter}}").text());
+                {#                alert(commentScore);#}
+
+                if (commentScore == 1) {
+                    $("#{{forloop.counter}}").empty().append(star_0);
+                }
+                else if (commentScore == 2) {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1);
+                }
+                else if (commentScore == 3) {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1, star_2);
+                }
+                else if (commentScore == 4) {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1, star_2, star_3);
+                }
+                else {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1, star_2, star_3, star_4);
+                }
+
+            {% endfor %}
+        });
+
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                $(this).addClass('animated ' + animationName).one(animationEnd, function () {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            $(".thumbUp").click(function () {
+                $(".thumbUp").animateCss('bounce');
+
+
+                var appid = {{ app.appid }};
+
+                $.get('/apprating/like/', {
+                    "appid": appid,
+                }, function (data) {
+
+                    var dict = JSON.parse(data);
+
+                    if (dict.success == 1) {
+
+                        var likes = dict.likepercentage + '%';
+                        $("#likes").css("width", likes);
+                        var likecount = dict.likecount;
+                        $("#likecount").empty().html(likecount);
+
+                        var dislikes = dict.dislikepercentage + '%'
+                        $("#dislikes").css("width", dislikes);
+                        var dislikecount = dict.dislikecount;
+                        $("#dislikecount").empty().html(dislikecount);
+
+                    }
+                    else {
+                        alert("Error occurred... Please try again.");
+                    }
+
+
+                });
+            });
+        });
+
+
+        $(document).ready(function () {
+            $(".thumbDown").click(function () {
+                $(".thumbDown").animateCss('bounce');
+
+
+                var appid = {{ app.appid }};
+
+                $.get('/apprating/dislike/', {
+                    "appid": appid,
+                }, function (data) {
+
+                    var dict = JSON.parse(data);
+
+                    if (dict.success == 1) {
+
+                        var likes = dict.likepercentage + '%';
+                        $("#likes").css("width", likes);
+                        var likecount = dict.likecount;
+                        $("#likecount").empty().html(likecount);
+
+                        var dislikes = dict.dislikepercentage + '%'
+                        $("#dislikes").css("width", dislikes);
+                        var dislikecount = dict.dislikecount;
+                        $("#dislikecount").empty().html(dislikecount);
+
+                    }
+                    else {
+                        alert("Error occurred... Please try again.");
+                    }
+
+
+                });
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            $(".thumbDown").click(function () {
+                $(this).animateCss('bounce');
+            });
+        });
+
+        $(document).ready(function () {
+
+            $("#post").click(function () {
+
+
+                $("#commentDiv").animateCss('zoomOutUp');
+                setTimeout(function () {
+                    $("#commentDiv").hide()
+                }, 1000);
+
+                var username = $("#usernow").text();
+
+                var appid = {{ app.appid }};
+
+                var content = $("#commentArea").val();
+
+
+                var score = parseInt($("#starScore").text());
+
+
+                $.get('/apprating/addcomment/', {
+                    "username": username,
+                    "appid": appid,
+                    "content": content,
+                    "score": score
+                }, function (data) {
+
+                    var dict = JSON.parse(data);
+
+                    if (dict.success == '1') {
+
+                        var averageScore = dict.averscore;
+                        var changedScore = averageScore.toFixed(1);
+                        $("#app_score").empty().html(changedScore);
+
+
+                        if (content == "") {
+
+                            $("#latest_comment").append("No content");
+                        }
+                        else {
+
+                            $("#latest_comment").append($("#commentArea").val());
+                        }
+
+                        var star_0 = $("<i></i>", {"class": "fa fa-star"});
+                        var star_1 = $("<i></i>", {"class": "fa fa-star"});
+                        var star_2 = $("<i></i>", {"class": "fa fa-star"});
+                        var star_3 = $("<i></i>", {"class": "fa fa-star"});
+                        var star_4 = $("<i></i>", {"class": "fa fa-star"});
+
+                        if (score == 1) {
+                            $("#latest_rating").append(star_0);
+                        }
+                        else if (score == 2) {
+                            $("#latest_rating").append(star_0, star_1);
+                        }
+                        else if (score == 3) {
+                            $("#latest_rating").append(star_0, star_1, star_2);
+                        }
+                        else if (score == 4) {
+                            $("#latest_rating").append(star_0, star_1, star_2, star_3);
+                        }
+                        else {
+                            $("#latest_rating").append(star_0, star_1, star_2, star_3, star_4);
+                        }
+
+                        setTimeout(function () {
+                            $("#latestComment").fadeIn(1000)
+                        }, 2000);
+                    }
+                    else {
+                        alert("Error occurred... Please try again.")
+                    }
+
+
+                });
+            });
+        });
+
+        <!--jquery for stars-->
+        $(document).ready(function () {
+            $("#st1").mouseover(function () {
+                $("#st1").attr("class", "fa fa-star fa-2x");
+                $("#st2").attr("class", "fa fa-star-o fa-2x");
+                $("#st3").attr("class", "fa fa-star-o fa-2x");
+                $("#st4").attr("class", "fa fa-star-o fa-2x");
+                $("#st5").attr("class", "fa fa-star-o fa-2x");
+                $("#starScore").html(1);
+                $("#post").removeAttr('disabled');
+            });
+
+            $("#st2").mouseover(function () {
+                $("#st1").attr("class", "fa fa-star fa-2x");
+                $("#st2").attr("class", "fa fa-star fa-2x");
+                $("#st3").attr("class", "fa fa-star-o fa-2x");
+                $("#st4").attr("class", "fa fa-star-o fa-2x");
+                $("#st5").attr("class", "fa fa-star-o fa-2x");
+                $("#starScore").html(2);
+                $("#post").removeAttr("disabled");
+            });
+
+            $("#st3").mouseover(function () {
+                $("#st1").attr("class", "fa fa-star fa-2x");
+                $("#st2").attr("class", "fa fa-star fa-2x");
+                $("#st3").attr("class", "fa fa-star fa-2x");
+                $("#st4").attr("class", "fa fa-star-o fa-2x");
+                $("#st5").attr("class", "fa fa-star-o fa-2x");
+                $("#starScore").html(3);
+                $("#post").removeAttr("disabled");
+            });
+
+            $("#st4").mouseover(function () {
+                $("#st1").attr("class", "fa fa-star fa-2x");
+                $("#st2").attr("class", "fa fa-star fa-2x");
+                $("#st3").attr("class", "fa fa-star fa-2x");
+                $("#st4").attr("class", "fa fa-star fa-2x")
+                $("#st5").attr("class", "fa fa-star-o fa-2x");
+                $("#starScore").html(4);
+                $("#post").removeAttr("disabled");
+            });
+
+            $("#st5").mouseover(function () {
+                $("#st1").attr("class", "fa fa-star fa-2x");
+                $("#st2").attr("class", "fa fa-star fa-2x");
+                $("#st3").attr("class", "fa fa-star fa-2x");
+                $("#st4").attr("class", "fa fa-star fa-2x");
+                $("#st5").attr("class", "fa fa-star fa-2x");
+                $("#starScore").html(5);
+                $("#post").removeAttr("disabled");
+            });
+
+            {#            $("#post").click(function () {#}
+            {##}
+
+            {##}
+            {#            })#}
+
+
+        });
+
+
+    </script>
+
+{% endblock %}
+
+
+</body>
+</html>
