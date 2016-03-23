@@ -7,6 +7,7 @@
 	border-radius: 0 !important;
 }
 
+
 body{
 	font-family: 'Ubuntu', sans-serif;
 }
@@ -23,7 +24,7 @@ body{
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-color: #757575;
-	height:508px;
+	height:65vh;
 	margin-top: -20px; 
 	/*padding-top: 10px;*/
 	/*padding-bottom: 0px;*/
@@ -145,7 +146,7 @@ a:active {
 	padding-left: 20px !important;
 	/*color: #FFFFFF;*/
 	line-height: 80px;
-	font-size: 35px;
+	font-size: 3vw;
 	margin-bottom: 50px !important;
 	/*filter:alpha(opacity=50);*/
 	/*opacity:0.8*/
