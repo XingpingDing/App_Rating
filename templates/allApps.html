@@ -16,23 +16,23 @@
 
     <div class="container">
         <div class="row">
-            <div align="center" class="col-md-12">
+            <div align="center" class="col-xs-12">
                 <span style="font-size: 40pt">Apps</span>
                 <hr/>
             </div>
         </div>
 
 
-        <div class="col-md-12">
+        <div class="col-xs-12">
 
             <!-- Category A-->
-            <div class="col-md-4 col-md-offset-0 test">
-                <div class="col-md-8 col-md-offset-2">
+            <div class="col-xs-4 col-xs-offset-0 test">
+                <div class="col-xs-8 col-xs-offset-2">
                     <p class="allApps_category">{{ category_list.0 }}</p>
                 </div>
 
                 {% for app in Games %}
-                    <div class="col-md-8 col-md-offset-2 appdiv" style="white-space: nowrap">
+                    <div class="col-xs-8 col-xs-offset-2 appdiv" style="white-space: nowrap">
                         <a href="/apprating/app/{{ app.appid }}">
                             <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
                             <span class="allApps_name"><b>{{ app.appname }}</b></span>
@@ -44,13 +44,13 @@
             </div>
 
             <!-- Category B-->
-            <div class="col-md-4 col-md-offset-0 test">
-                <div class="col-md-8 col-md-offset-2">
+            <div class="col-xs-4 col-xs-offset-0 test">
+                <div class="col-xs-8 col-xs-offset-2">
                     <p class="allApps_category">{{ category_list.1 }}</p>
                 </div>
 
                 {% for app in Social %}
-                    <div class="col-md-8 col-md-offset-2 appdiv" style="white-space: nowrap">
+                    <div class="col-xs-8 col-xs-offset-2 appdiv" style="white-space: nowrap">
                         <a href="/apprating/app/{{ app.appid }}">
                             <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
 
@@ -63,13 +63,13 @@
             </div>
 
             <!-- Category C-->
-            <div class="col-md-4 col-md-offset-0 test">
-                <div class="col-md-8 col-md-offset-2">
+            <div class="col-xs-4 col-xs-offset-0 test">
+                <div class="col-xs-8 col-xs-offset-2">
                     <p class="allApps_category">{{ category_list.2 }}</p>
                 </div>
 
                 {% for app in Music %}
-                    <div class="col-md-8 col-md-offset-2 appdiv" style="white-space: nowrap">
+                    <div class="col-xs-8 col-xs-offset-2 appdiv" style="white-space: nowrap">
                         <a href="/apprating/app/{{ app.appid }}">
                             <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
                             <span class="allApps_name"><b>{{ app.appname }}</b></span>
