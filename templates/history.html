@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% block title %}My rating history{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="font-size: 40pt" align="center">My rating history</div>
+            </div>
+        </div>
+        <hr/>
+
+        {% for comment in history_list %}
+            <div class="col-md-8 col-md-offset-2" style="height: 100px;">
+                <div class="col-md-2">
+                    <img class="history_icon" src="{% static '' %}{{ comment.app.iconpath }}" height="100px">
+                </div>
+
+
+                <div class="col-md-10">
+                    <h4>{{ comment.app.appname }}</h4>
+                    <p>Score: <span style="color: gold" id="{{ forloop.counter }}">{{ comment.score }}</span></p>
+                    <p>Content: <span>{{ comment.content }}</span></p>
+                </div>
+            </div>
+            <div class="row col-md-8 col-md-offset-2">
+                <hr/>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            {% for comment in history_list %}
+
+                var star_0 = $("<i></i>", {"class": "fa fa-star"});
+                var star_1 = $("<i></i>", {"class": "fa fa-star"});
+                var star_2 = $("<i></i>", {"class": "fa fa-star"});
+                var star_3 = $("<i></i>", {"class": "fa fa-star"});
+                var star_4 = $("<i></i>", {"class": "fa fa-star"});
+
+                var commentScore = parseInt($("#{{forloop.counter}}").text());
+
+                if (commentScore == 1) {
+                    $("#{{forloop.counter}}").empty().append(star_0);
+                }
+                else if (commentScore == 2) {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1);
+                }
+                else if (commentScore == 3) {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1, star_2);
+                }
+                else if (commentScore == 4) {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1, star_2, star_3);
+                }
+                else {
+                    $("#{{forloop.counter}}").empty().append(star_0, star_1, star_2, star_3, star_4);
+                }
+
+            {% endfor %}
+        });
+    </script>
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div align="center" class="col-md-12">
+                <span style="font-size: 40pt">Results</span>
+                <hr/>
+                <span>{{ result_count }} similar apps</span>
+                <br/><br/>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {% for app in result_list %}
+                <div class="col-md-4" style="margin-bottom: 50px;">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="results_appdiv">
+                            <a href="/apprating/app/{{ app.appid }}">
+                                 <img class="allApps_icon" src="{% static "" %}{{ app.iconpath }}">
+                                <span class="allApps_name">{{ app.appname }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+    <script>
+
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                $(this).addClass('animated ' + animationName).one(animationEnd, function () {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            $(".results_appdiv").mouseover(function () {
+                $(this).animateCss('pulse')
+            })
+        });
+
+    </script>
+
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row" style="margin-top: 50px;">
+            <div align="center" style="font-size: 40pt;">The project</div>
+{#            <hr/>#}
+            <div class="col-md-8 col-md-offset-2" style="font-size: 15pt; margin-top: 50px;">
+                <p>The website aims to create a platform which allow users to view different kinds of apps and write
+                    some comments on them. Because of the limitation of time, the amount of apps in the database maybe
+                    is not enough. Last, we would like to express our gratitude to Dr Leif Azzopardi and all viewers who
+                    gave us many advices which help us improve the website a lot.</p>
+            </div>
+
+        </div>
+        <hr/>
+
+        <div class="row">
+            <h1 align="center">Advisor</h1>
+
+            <div class="col-md-2 col-md-offset-5" style="margin-top: 30px; font-size: 12pt;white-space: nowrap">
+                <img class="img-responsive" src="{% static "images/us/dr.PNG" %}">
+            </div>
+
+            <div class="col-md-12">
+                <h3 align="center">Dr. Leif Azzopardi</h3>
+            </div>
+
+        </div>
+        <hr/>
+
+        <div class="row">
+            <h1 align="center">Members</h1>
+            <div class="col-md-8 col-md-offset-2" style="margin-top: 50px; font-size: 12pt;white-space: nowrap">
+                <div class="col-md-6" style="margin-bottom: 30px;">
+                    <div class="col-md-6">
+                        <img class="img-responsive" src="{% static "images/us/cwy.JPG" %}">
+                    </div>
+                    <div class="col-md-6">
+                        <div style="margin-top: 50px;">
+                            Name: Chen Wenyi<br/>
+                            GUID: 2216478
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" style="margin-bottom: 30px;">
+                    <div class="col-md-6">
+                        <img class="img-responsive" src="{% static "images/us/cld.PNG" %}">
+                    </div>
+                    <div class="col-md-6">
+                        <div style="margin-top: 50px;">
+                            Name: Cai Luodi<br/>
+                            GUID: 2217251
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" style="margin-bottom: 30px;">
+                    <div class="col-md-6">
+                        <img class="img-responsive" src="{% static "images/us/ljh.PNG" %}">
+                    </div>
+                    <div class="col-md-6">
+                        <div style="margin-top: 50px;">
+                            Name: Liu Jiahao<br/>
+                            GUID: 2217010
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6" style="margin-bottom: 30px;">
+                    <div class="col-md-6">
+                        <img class="img-responsive" src="{% static "images/us/dxp.PNG" %}">
+                    </div>
+                    <div class="col-md-6">
+                        <div style="margin-top: 50px;">
+                            Name: Ding Xingping<br/>
+                            GUID: 2168050
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+</body>
+</html>
