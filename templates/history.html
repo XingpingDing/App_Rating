@@ -22,7 +22,9 @@
         {% for comment in history_list %}
             <div class="col-md-8 col-md-offset-2" style="height: 100px;">
                 <div class="col-md-2">
-                    <img class="history_icon" src="{% static '' %}{{ comment.app.iconpath }}" height="100px">
+                    <a href="/apprating/app/{{ comment.app.appid }}">
+                        <img class="history_icon" src="{% static '' %}{{ comment.app.iconpath }}" height="100px">
+                    </a>
                 </div>
 
 
@@ -71,6 +73,22 @@
                 }
 
             {% endfor %}
+        });
+
+
+        $.fn.extend({
+            animateCss: function (animationName) {
+                var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+                $(this).addClass('animated ' + animationName).one(animationEnd, function () {
+                    $(this).removeClass('animated ' + animationName);
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            $(".history_icon").mouseover(function () {
+                $(this).animateCss('pulse')
+            })
         });
     </script>
 
