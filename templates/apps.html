@@ -33,18 +33,18 @@
             <div class="row col-xs-11 col-xs-pull-1">
                 <!--like button here-->
                 <div align="center" class="col-xs-2 thumbUp">
-                        <i style="color: #ff7238; cursor: pointer" class="fa fa-thumbs-up fa-2x"></i>
+                        <i style="color: #00C853; cursor: pointer" class="fa fa-thumbs-up fa-2x"></i>
                 </div>
 
                 <!--progress bar here-->
                 <div class="col-xs-8">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-danger" id="likes" style="width: {{ likepercentage }}%">
+                        <div class="progress-bar progress-bar-success" id="likes" style="width: {{ likepercentage }}%">
                             <span class="sr-only"></span>
                             <span id="likecount">{{ app.likecount }}</span>
                         </div>
 
-                        <div class="progress-bar progress-bar-success" id="dislikes"
+                        <div class="progress-bar progress-bar-danger" id="dislikes"
                              style="width: {{ dislikepercentage }}%">
                             <span class="sr-only"></span>
                             <span id="dislikecount">{{ app.dislikecount }}</span>
@@ -56,7 +56,7 @@
                 <!--hate button here-->
                 <div class="col-xs-2">
                     <div align="center">
-                        <i style="color: #00C853;cursor: pointer" class="fa fa-thumbs-down fa-2x thumbDown">
+                        <i style="color: #ff7238;cursor: pointer" class="fa fa-thumbs-down fa-2x thumbDown">
                         </i>
                     </div>
                 </div>
