@@ -265,10 +265,10 @@ def populate():
                    description="<p>Instantly reach the people in your life—for free. Messenger is just like texting, but you don't have to pay for every message (it works with your data plan). <br><br>Not just for Facebook friends: Message people in your phone book and just enter a phone number to add a new contact.<br><br>Group chats: Create groups for the people you message most. Name them, set group photos and keep them all in one place.<br><br>Photos and videos: Shoot videos and snap selfies or other photos right from the app and send them with one tap.<br><br>Free calls: Talk as long as you want, even with people in other countries. (Calls are free over Wi-Fi. Otherwise, standard data charges apply.)<br><br>Even more ways to message: <br>Bring your conversations to life with stickers. <br>Preview your camera roll photos and videos without leaving the conversation--then choose the perfect ones to send.<br>Record voice messages when you have more to say.<br><br>Extra features:<br>Know when people have seen your messages.<br>Forward messages or photos to people who weren't in the conversation.<br>Search for people and groups to quickly get back to them.<br>Turn on location to let people know when you're nearby.<br>See who's available on Messenger and who's active on Facebook. <br>Turn off notifications when you're working, sleeping or just need a break.<br>Stay logged in so you never miss a message.</p>",
                    developer="Facebook Inc.",
                    price="Free",
-                   iconpath="images/App/" + appid + "/icon.jpeg",
-                   imagepath1="images/App/" + appid + "/screen1.jpeg",
-                   imagepath2="images/App/" + appid + "/screen2.jpeg",
-                   imagepath3="images/App/" + appid + "/screen3.jpeg")
+                   iconpath="images/App/Games/" + appid + "/icon.jpeg",
+                   imagepath1="images/App/Games/" + appid + "/screen1.jpeg",
+                   imagepath2="images/App/Games/" + appid + "/screen2.jpeg",
+                   imagepath3="images/App/Games/" + appid + "/screen3.jpeg")
 
     appid = "324684580"
     app8 = add_app(appid=appid,
@@ -393,7 +393,7 @@ def populate():
             iconpath="images/App/" + appid + "/icon.jpeg",
             imagepath1="images/App/" + appid + "/screen1.jpeg",
             imagepath2="images/App/" + appid + "/screen2.jpeg",
-            imagepath3="images/App/" + appid + "/screen3.jpeg"
+            imagepath3="images/App/" + appid + "/screen3.jpeg")
 
 
 def add_app(appid, appname, category, description, developer, price, iconpath, imagepath1, imagepath2, imagepath3,
@@ -418,16 +418,6 @@ def add_app(appid, appname, category, description, developer, price, iconpath, i
 
 def add_cat(name):
     c = Category.objects.get_or_create(name=name)[0]
-    return c
-
-
-def add_comment(user, app, score, content):
-    app.averscore = (app.averscore * app.commentcount + score) / (app.commentcount + 1)
-    app.commentcount = app.commentcount + 1
-    app.save()
-
-    c = Comment.objects.get_or_create(user=user, app=app, score=score, content=content)[0]
-    c.save
     return c
 
 
